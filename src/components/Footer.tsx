@@ -39,14 +39,15 @@ const FooterLeft = styled.div`
 `
 
 const FooterLogo = styled.img`
-  width: 72px;
+  width: 100px;
   margin-bottom: 18px;
+  margin-top: 18px;
 `
 
 const Socials = styled.div`
-  margin: 40px 0 0 0;
+  margin: 100px 0 0 0;
   display: flex;
-  gap: 20px;
+  gap: 10px;
   justify-content: center;
 `
 
@@ -159,7 +160,7 @@ const Footer: React.FC = () => (
       </FooterColumns>
     </FooterContainer>
     <FooterBottom>
-      &copy; {new Date().getFullYear()} ENTION. All rights reserved.
+      
     </FooterBottom>
   </FooterSection>
 )

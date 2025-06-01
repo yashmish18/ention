@@ -1,117 +1,108 @@
 import React from 'react';
+import styled from 'styled-components';
+import Logo from '../assets/logo.png';
 
-const Navbar: React.FC = () => {
-  const leftNavItems: string[] = ["Home", "Products", "Services"];
-  const rightNavItems: string[] = ["About Us", "Support", "Shop"];
-  const buttonItems: string[] = ["Login", "Register"];
+const NavbarContainer = styled.nav`
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: transparent;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  overflow: visible;
+`;
 
-  return (
-    <>
-      <style>
-        {`
-          .navbar {
-            width: 100%;
-            background: linear-gradient(to right, #0d1a2d, #000000);
-            padding: 16px 32px;
-          }
+const NavContent = styled.div`
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 32px;
+  position: relative;
+  z-index: 1;
+`;
 
-          .nav-container {
-            max-width: 1240px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-          }
+const NavLinks = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-left: 20px;
+`;
 
-          .nav-left, .nav-right {
-            display: flex;
-            gap: 18px;
-            align-items: center;
-          }
+const LogoImg = styled.img`
+  height: 80px;
+  display: block;
+  margin-left: 40px;
+`;
 
-        
+const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-left: 150px;
+`;
 
-          .logo-highlight {
-            color: #3b82f6;
-          }
+const NavLink = styled.a`
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+  &:hover {
+    opacity: 1;
+  }
+`;
 
-          .nav-link {
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 500;
-            text-decoration: none;
-            opacity: 0.8;
-            transition: all 0.2s ease;
-          }
+const NavButtons = styled.div`
+  display: flex;
+  gap: 16px;
+  margin-left: 32px;
+`;
 
-          .nav-link:hover {
-            opacity: 1;
-            color: #3b82f6;
-          }
+const NavButton = styled.a<{ filled?: boolean }>`
+  color: ${({ filled }) => (filled ? '#070D2A' : '#fff')};
+  background: ${({ filled }) => (filled ? '#fff' : 'rgba(255,255,255,0.08)')};
+  border: 1px solid #fff;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+  &:hover {
+    background: #fff;
+    color: #070D2A;
+  }
+`;
 
-          .nav-button {
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 500;
-            text-decoration: none;
-            padding: 8px 16px;
-            border: 1px solid #ffffff;
-            border-radius: 20px;
-            opacity: 0.8;
-            transition: all 0.2s ease;
-            background: transparent;
-          }
-
-          .nav-button:hover {
-            opacity: 1;
-            background: #ffffff;
-            color: #0d1a2d;
-          }
-
-          .nav-button:last-child {
-            background: #ffffff;
-            color: #0d1a2d;
-            border: none;
-          }
-
-          .nav-button:last-child:hover {
-            background: #e0e0e0;
-            color: #0d1a2d;
-          }
-        `}
-      </style>
-      <nav className="navbar">
-        <div className="nav-container">
-          {/* Left Navigation Links */}
-          <div className="nav-left">
-            {leftNavItems.map((item: string, index: number) => (
-              <a key={index} href="#" className="nav-link">
-                {item}
-              </a>
-            ))}
-          </div>
-
-          {/* Centered Logo */}
-         
-
-          {/* Right Navigation Links and Buttons */}
-          <div className="nav-right">
-            {rightNavItems.map((item: string, index: number) => (
-              <a key={index} href="#" className="nav-link">
-                {item}
-              </a>
-            ))}
-            {buttonItems.map((item: string, index: number) => (
-              <a key={index} href="#" className="nav-button">
-                {item}
-              </a>
-            ))}
-          </div>
-        </div>
-      </nav>
-    </>
-  );
-};
+const Navbar: React.FC = () => (
+  <NavbarContainer>
+    <NavContent>
+      <NavLinks>
+        <NavLink href="#">Home</NavLink>
+        <NavLink href="#">Products</NavLink>
+        <NavLink href="#">Services</NavLink>
+      </NavLinks>
+      <LogoImg src={Logo} alt="Logo" />
+      <RightSection>
+        <NavLinks>
+          <NavLink href="#">About Us</NavLink>
+          <NavLink href="#">Support</NavLink>
+          <NavLink href="#">Shop</NavLink>
+        </NavLinks>
+        <NavButtons>
+          <NavButton href="#">Login</NavButton>
+          <NavButton href="#" filled>Register</NavButton>
+        </NavButtons>
+      </RightSection>
+    </NavContent>
+  </NavbarContainer>
+);
 
 export default Navbar;

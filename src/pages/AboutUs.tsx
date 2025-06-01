@@ -1,34 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
-import heroImg from "../assets/hero.png";
 import storyImg from "../assets/story.png";
 import peopleImg from "../assets/people.png";
 import goalsImg from "../assets/goals.png";
+import heroImg from "../assets/hero.png";
 
 const PageBg = styled.div`
-  background: #0A1A2F;
+  background: #070D2A;
   min-height: 100vh;
 `;
 
-const HeroImageFlexCenter = styled.div`
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  margin-top: 592.25px;
-`;
-
-const HeroImage = styled.img`
-  width: 1440px;
-  height: 774px;
-  display: block;
-  object-fit: contain;
-  background: linear-gradient(180deg, #0000000A 4%, #2E2E2E 100%);
-`;
-
 const GradientHeader = styled.div`
-  background: linear-gradient(180deg, #0A1A2F 0%, #1EC6E6 100%);
+  background: linear-gradient(180deg, #070D2A 0%, #0FAFCA 100%, #070D2A 100%);
   padding: 80px 0 48px 0;
   text-align: center;
 `;
@@ -40,6 +24,7 @@ const Title = styled.h1`
   text-transform: uppercase;
   color: #fff;
   margin-bottom: 32px;
+  margin-top: 240px;
 `;
 
 const Description = styled.p`
@@ -56,7 +41,7 @@ const Description = styled.p`
 `;
 
 const CardsSection = styled.div`
-  background: linear-gradient(180deg, #0FAFCA 0%, #070D2A 100%);
+  background: linear-gradient(180deg, #0FAFCA 100%, #070D2A 0%);
   padding: 80px 0;
 `;
 
@@ -97,8 +82,8 @@ const CardDesc = styled.p`
 `;
 
 const CardImageHolder = styled.div`
-  width: 100%;
-  height: 340px;
+  width: 90%;
+  height: 540px;
   background: #eaf6fa;
   border-radius: 20px;
   display: flex;
@@ -106,6 +91,7 @@ const CardImageHolder = styled.div`
   justify-content: center;
   margin-bottom: 32px;
   box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+  margin
 `;
 
 const CardImage = styled.img`
@@ -135,6 +121,27 @@ const CardButton = styled.button`
   }
 `;
 
+const HeroSection = styled.div`
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+`;
+
+const HeroImage = styled.img`
+  width: 100vw;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+`;
+
 const AboutUs: React.FC = () => (
   <PageBg>
     <GradientHeader>
@@ -143,9 +150,9 @@ const AboutUs: React.FC = () => (
         We are ENTION, a pioneering force as a Computing Devices Manufacturer, marketer and Service Consultant, driven by technology to create India's foremost laptop and computer brand. Our commitment to excellence ensures that our products stand out for their unparalleled quality and affordability, proudly bearing the label <b>MADE IN INDIA</b>.
       </Description>
     </GradientHeader>
-    <HeroImageFlexCenter>
+    <HeroSection>
       <HeroImage src={heroImg} alt="Nature" />
-    </HeroImageFlexCenter>
+    </HeroSection>
     <CardsSection>
       <InfoGrid>
         <InfoCard>
