@@ -44,6 +44,20 @@ const FooterLogo = styled.img`
   margin-top: 18px;
 `
 
+const SocialIconLink = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 0.2s;
+  svg {
+    transition: stroke 0.2s, fill 0.2s;
+  }
+  &:hover svg {
+    stroke: #0FAFCA !important;
+    fill: #0FAFCA !important;
+  }
+`
+
 const Socials = styled.div`
   margin: 100px 0 0 0;
   display: flex;
@@ -115,10 +129,10 @@ const Footer: React.FC = () => (
       <FooterLeft>
         <FooterLogo src={logo} alt="Ention Logo" />
         <Socials>
-          <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X"><XIcon /></a>
-          <a href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><GitHubIcon /></a>
-          <a href="https://slack.com/" target="_blank" rel="noopener noreferrer" aria-label="Slack"><SlackIcon /></a>
-          <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YouTubeIcon /></a>
+          <SocialIconLink href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X"><XIcon /></SocialIconLink>
+          <SocialIconLink href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><GitHubIcon /></SocialIconLink>
+          <SocialIconLink href="https://slack.com/" target="_blank" rel="noopener noreferrer" aria-label="Slack"><SlackIcon /></SocialIconLink>
+          <SocialIconLink href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YouTubeIcon /></SocialIconLink>
         </Socials>
       </FooterLeft>
       <FooterColumns>

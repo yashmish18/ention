@@ -5,14 +5,34 @@ import storyImg from "../assets/story.png";
 import peopleImg from "../assets/people.png";
 import goalsImg from "../assets/goals.png";
 import heroImg from "../assets/hero.png";
+import ellipseSvg from '../assets/Ellipse 4.svg';
+
+const EllipseBg = styled.img`
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
+  width: 500px;
+  height: auto;
+  pointer-events: none;
+`;
 
 const PageBg = styled.div`
-  background: #070D2A;
+  background: #0FAFCA;
   min-height: 100vh;
+  position: relative;
 `;
 
 const GradientHeader = styled.div`
-  background: linear-gradient(180deg, #070D2A 0%, #0FAFCA 100%, #070D2A 100%);
+  background: linear-gradient(
+    180deg,
+    #070D2A 0%,
+    #133B5C 40%,
+    #176B87 80%,
+    rgba(15,175,202,0.5) 95%,
+    rgba(15,175,202,0.0) 1000%
+  );
   padding: 80px 0 48px 0;
   text-align: center;
 `;
@@ -43,6 +63,7 @@ const Description = styled.p`
 const CardsSection = styled.div`
   background: linear-gradient(180deg, #0FAFCA 100%, #070D2A 0%);
   padding: 80px 0;
+  margin-top: 20px;
 `;
 
 const InfoGrid = styled.div`
@@ -63,35 +84,57 @@ const InfoGrid = styled.div`
 `;
 
 const InfoCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  max-width: 350px;
+  background-color: transparent;
   font-size: 21px;
   font-family: Inter;
   font-weight: 900;
   line-height: 157%;
-  letter-spacing: 50%;
   text-align: center;
   color: #FFFFFF;
+  transition: box-shadow 0.3s, transform 0.3s;
+  &:hover {
+    box-shadow: 0 8px 32px rgba(15,175,202,0.25);
+    transform: translateY(-6px) scale(1.02);
+  }
+`;
+
+const InfoCardTitle = styled.div`
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 18px;
+  margin-top: 0;
 `;
 
 const CardDesc = styled.p`
+  font-family: 'Inter', sans-serif;
   color: #fff;
-  font: Inter;
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 400;
   margin-bottom: 32px;
   text-align: center;
 `;
 
 const CardImageHolder = styled.div`
-  width: 90%;
-  height: 540px;
+  width: 100%;
+  height: 400px;
   background: #eaf6fa;
   border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 32px;
+  margin: 32px 0;
   box-shadow: 0 4px 32px rgba(0,0,0,0.10);
-  margin
 `;
 
 const CardImage = styled.img`
@@ -102,6 +145,7 @@ const CardImage = styled.img`
 `;
 
 const CardButton = styled.button`
+font-family: 'Inter', sans-serif;
   width: 90%;
   background: #f6f6f6;
   color: #111;
@@ -121,8 +165,7 @@ const CardButton = styled.button`
   }
 `;
 
-const HeroSection = styled.div`
-  width: 100vw;
+const HeroSection = styled.div`  width: 100vw;
   position: relative;
   left: 50%;
   right: 50%;
@@ -144,6 +187,7 @@ const HeroImage = styled.img`
 
 const AboutUs: React.FC = () => (
   <PageBg>
+    <EllipseBg src={ellipseSvg} alt="Ellipse Decoration" />
     <GradientHeader>
       <Title>ABOUT ENTION</Title>
       <Description>
@@ -156,17 +200,15 @@ const AboutUs: React.FC = () => (
     <CardsSection>
       <InfoGrid>
         <InfoCard>
-          Our Story
-          <CardDesc>
-            Discover the ideas, products and awards that make up our rich history as a global technology leader.
-          </CardDesc>
+          <InfoCardTitle>Our Story</InfoCardTitle>
+          <CardDesc>Discover the ideas, products and awards that make up our rich history as a global technology leader.</CardDesc>
           <CardImageHolder>
             <CardImage src={storyImg} alt="Our Story" />
           </CardImageHolder>
           <CardButton>RECOGNITION</CardButton>
         </InfoCard>
         <InfoCard>
-          Our People
+          <InfoCardTitle>Our People</InfoCardTitle>
           <CardDesc>
             Discover the ideas, products and awards that make up our rich history as a global technology leader.
           </CardDesc>
@@ -176,7 +218,7 @@ const AboutUs: React.FC = () => (
           <CardButton>LEADERSHIP</CardButton>
         </InfoCard>
         <InfoCard>
-          Our Goals
+          <InfoCardTitle>Our Goals</InfoCardTitle>
           <CardDesc>
             Discover the ideas, products and awards that make up our rich history as a global technology leader.
           </CardDesc>
