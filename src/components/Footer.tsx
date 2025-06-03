@@ -3,12 +3,17 @@ import React from "react"
 import styled from "styled-components"
 import logo from "../assets/logo.png"
 
-const FooterSection = styled.footer`
-  background: #070D2A;
+// Add prop to interface
+interface FooterProps {
+  dark?: boolean;
+}
+
+const FooterSection = styled.footer<FooterProps>`
+  background: ${props => props.dark ? '#333333' : '#070D2A'};
+  border-top: ${props => props.dark ? 'none' : '1px solid #16213a'};
   color: #b0b8c1;
   padding: 48px 0 0 0;
   font-size: 1rem;
-  border-top: 1px solid #16213a;
 `
 
 const FooterContainer = styled.div`
@@ -123,8 +128,8 @@ const YouTubeIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M21.8 8.001a2.75 2.75 0 00-1.94-1.95C18.2 6 12 6 12 6s-6.2 0-7.86.05A2.75 2.75 0 002.2 8.001 28.6 28.6 0 002 12a28.6 28.6 0 00.2 3.999 2.75 2.75 0 001.94 1.95C5.8 18 12 18 12 18s6.2 0 7.86-.05a2.75 2.75 0 001.94-1.95A28.6 28.6 0 0022 12a28.6 28.6 0 00-.2-3.999zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
 );
 
-const Footer: React.FC = () => (
-  <FooterSection>
+const Footer: React.FC<FooterProps> = ({ dark }) => (
+  <FooterSection dark={dark}>
     <FooterContainer>
       <FooterLeft>
         <FooterLogo src={logo} alt="Ention Logo" />

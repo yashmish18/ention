@@ -15,7 +15,7 @@ const slideIn = keyframes`
 const PageBg = styled.div`
   min-height: 130vh;
   width: 100vw;
-  background:rgb(215, 220, 225);
+  background: linear-gradient(180deg, #F5F7FA 0%, #333333 100%, #424242 0%);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -30,10 +30,10 @@ const SplitLayout = styled.div`
   min-height: 600px;
   background: rgba(255,255,255,0.98);
   border-radius: 40px;
-  box-shadow: 0 12px 40px rgba(15,175,202,0.10);
+  box-shadow: 0 12px 40px #000; //maybe needs to be changed
   overflow: hidden;
   animation: ${slideIn} 0.7s cubic-bezier(.4,1.2,.6,1) 0s 1;
-  margin-top: 160px;
+  margin-top: 250px;
   margin-bottom: 48px;
   @media (max-width: 900px) {
     flex-direction: column;
@@ -78,7 +78,7 @@ const BrandLogo = styled.img`
   width: 70px;
   margin-bottom: 18px;
   filter: drop-shadow(0 0 18px #00bcd4cc);
-  z-index: 2;
+  z-index: 1;
   transition: filter 0.3s;
   &:focus, &:hover {
     filter: drop-shadow(0 0 32px #00bcd4ff);
@@ -105,7 +105,7 @@ const Benefits = styled.ul`
 
 const RightPanel = styled.div`
   flex: 1;
-  background: rgba(255,255,255,0.98);
+  background: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -138,7 +138,7 @@ const Title = styled.h1`
 `;
 
 const Subtitle = styled.div`
-  color: #176B87;
+  color: #333333;
   font-size: 1.08rem;
   font-weight: 600;
   margin-bottom: 28px;
@@ -163,7 +163,7 @@ const InputIcon = styled.span`
   top: 50%;
   transform: translateY(-50%);
   font-size: 1.1em;
-  color: #176B87;
+  color: #333333;
   opacity: 0.7;
 `;
 
@@ -178,11 +178,11 @@ const Input = styled.input<{ hasError?: boolean }>`
   font-weight: 500;
   width: 100%;
   transition: border-color 0.3s, box-shadow 0.3s;
-  box-shadow: ${props => props.hasError ? '0 0 0 2px #ff1744' : 'none'};
+  box-shadow: ${props => props.hasError ? ' #ff1744' : 'none'};
   &:focus {
     outline: none;
-    border-color: #00bcd4;
-    box-shadow: 0 0 0 2px #00bcd4;
+    border-color: #2C2D2D;
+   
   }
 `;
 
@@ -203,7 +203,7 @@ const PasswordToggle = styled.button`
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #176B87;
+  color: #333333;
   font-size: 1.3em;
   cursor: pointer;
   opacity: 0.7;
@@ -211,7 +211,7 @@ const PasswordToggle = styled.button`
   align-items: center;
   transition: color 0.2s, opacity 0.2s;
   &:hover {
-    color: #00bcd4;
+    color: #2C2D2D;
     opacity: 1;
   }
 `;
@@ -225,7 +225,7 @@ const RememberMeRow = styled.div`
 
 const RememberLabel = styled.label`
   font-size: 0.98rem;
-  color: #176B87;
+  color: #000;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -234,15 +234,15 @@ const RememberLabel = styled.label`
 
 const ErrorMsg = styled.div`
   color: #ff1744;
-  font-size: 0.95rem;
-  margin-top: 2px;
+  font-size: 0.90rem;
+  margin-top: 8px;
   margin-bottom: -10px;
 `;
 
 const LoginButton = styled.button`
-  background: linear-gradient(90deg, #00bcd4 60%, #176B87 100%);
-  color: #fff;
-  border: none;
+  background: #fff;
+  color: #000;
+  border: 1px solid #2C2D2D;
   border-radius: 10px;
   font-size: 1.05rem;
   font-family: 'Inter', sans-serif;
@@ -257,18 +257,19 @@ const LoginButton = styled.button`
   width: 100%;
   transition: background 0.3s, box-shadow 0.3s;
   &:hover {
-    background: linear-gradient(90deg, #176B87 0%, #00bcd4 100%);
-    box-shadow: 0 4px 16px #00bcd4aa;
+    background:  #333333;
+    color: #fff;
+    box-shadow: 0 4px 16px #2C2D2D;
   }
 `;
 
 const GoogleBtn = styled.button`
   background: #fff;
-  border: 1.5px solid #cfd8dc;
+  border: 1px solid #2C2D2D;
   border-radius: 8px;
   padding: 10px 0;
   font-size: 1.05rem;
-  color: #222;
+  color: #333333;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -279,9 +280,10 @@ const GoogleBtn = styled.button`
   margin-bottom: 8px;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   &:hover {
-    border-color: #00bcd4;
-    box-shadow: 0 2px 8px #00bcd455;
-    background: #f6fafd;
+    border-color: #333333;
+    box-shadow: 0 2px 8px #2C2D2D;
+    background:  #333333;
+    color: #fff;
   }
 `;
 
@@ -292,7 +294,7 @@ const GoogleIcon = styled.img`
 `;
 
 const RegisterLink = styled(Link)`
-  color: #00bcd4;
+  color:  #2C2D2D;
   text-decoration: none;
   text-align: center;
   margin-top: 24px;
@@ -302,7 +304,8 @@ const RegisterLink = styled(Link)`
   font-weight: 600;
   &:hover {
     text-decoration: underline;
-    color: #176B87;
+    font-weight: 1.5rem;
+    color: #333333;
   }
 `;
 
@@ -318,6 +321,16 @@ const Spinner = styled.div`
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+`;
+
+const ForgotPasswordLink = styled(Link)`
+  color: #2C2D2D;
+  font-size: 0.98rem;
+  text-decoration: none;
+  &:hover {
+    text-decoration: 2px underline;
+    text-underline-offset: 2px;
+    
 `;
 
 const Login: React.FC = () => {
@@ -420,7 +433,7 @@ const Login: React.FC = () => {
                   <input type="checkbox" checked={remember} onChange={e => { setRemember(e.target.checked); console.log('Remember Me:', e.target.checked); }} style={{marginRight:4}} />
                   Remember Me
                 </RememberLabel>
-                <Link to="/forgot-password" style={{color:'#00bcd4', fontSize:'0.98rem'}}>Forgot Password?</Link>
+                <ForgotPasswordLink to="/forgot-password">Forgot Password?</ForgotPasswordLink>
               </RememberMeRow>
               <LoginButton type="submit" disabled={loading || googleLoading}>
                 {loading ? <Spinner /> : "Login"}

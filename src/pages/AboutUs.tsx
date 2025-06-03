@@ -29,9 +29,9 @@ const GradientHeader = styled.div`
     180deg,
     #070D2A 0%,
     #133B5C 40%,
-    #176B87 80%,
+    #176B87 100%,
     rgba(15,175,202,0.5) 95%,
-    rgba(15,175,202,0.0) 1000%
+    rgba(15,175,202,0.0) 100%
   );
   padding: 80px 0 48px 0;
   text-align: center;
@@ -44,7 +44,7 @@ const Title = styled.h1`
   text-transform: uppercase;
   color: #fff;
   margin-bottom: 32px;
-  margin-top: 240px;
+  margin-top: 100px;
 `;
 
 const Description = styled.p`
@@ -53,7 +53,7 @@ const Description = styled.p`
   font-size: 1.35rem;
   color: #fff;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.5;
   b {
     color: #fff;
     font-weight: 700;
