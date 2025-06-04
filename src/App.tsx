@@ -17,14 +17,14 @@ const AppContent: React.FC = () => {
 
   return (
     <>
-      {location.pathname !== "/support" && <Navbar />}
+      {!isAuthPage && <Navbar />}
       <Routes>
         <Route path="/about" element={<AboutUs />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/support" element={<Support />} />
       </Routes>
-      <Footer dark={isAuthPage} />
+      {location.pathname !== '/login' && <Footer />}
     </>
   );
 };

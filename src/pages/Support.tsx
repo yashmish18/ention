@@ -1,649 +1,1011 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import React from 'react';
+import styled, { keyframes } from 'styled-components';
+import Navbar from '../components/Navbar';
+import { FiDownload, FiHeadphones, FiPhone, FiTool, FiChevronRight, FiSearch, FiMonitor, FiSettings, FiShield, FiWifi, FiBatteryCharging, FiCheckCircle, FiAlertTriangle, FiBookOpen, FiArrowRight, FiMessageCircle } from 'react-icons/fi';
+import LayerSvg from '../assets/Layer_1.svg';
+import { Link } from 'react-router-dom';
+import type { IconType } from 'react-icons/lib';
 
-import Logo from "../assets/logo.png";
-import Layer1 from '../assets/Layer_1.svg';
+const floatUpDown = keyframes`
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+  100% { transform: translateY(0); }
+`;
 
 const PageBg = styled.div`
   background: #fff;
   min-height: 100vh;
-  padding: 0;
-`;
-
-const HeaderRow = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50vw;
-  padding-left: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  background: transparent;
-  z-index: 10;
-`;
-
-const HeaderLeft = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  padding-left: 60px;
-  background: transparent;
-  margin: 0;
-  border-radius: 0;
-`;
-
-const HeaderNav = styled.nav`
-  display: flex;
-  align-items: center;
-  gap: 36px;
-`;
-
-const HeaderNavLink = styled(Link)<{ $active?: boolean }>`
-  color: #fff;
-  font-size: 1.08rem;
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  text-decoration: none;
-  padding-bottom: 2px;
-  border-bottom: 2px solid transparent;
-  transition: border-color 0.2s, color 0.2s;
-  ${({ $active }) => $active && `border-bottom: 2px solid #fff; font-weight: 600;`}
-  &:hover {
-    border-bottom: 2px solid #00BCD4;
-    border-bottom-offset: 2px;
-  }
-`;
-
-const MainSection = styled.div`
-  display: flex;
-  width: 100vw;
-  min-height: 480px;
-  margin: 0;
-  padding: 0;
-  @media (max-width: 900px) {
-    flex-direction: column;
-  }
-`;
-
-const LeftCol = styled.div`
-  flex: 1;
-  background: #070D2A;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 100px 0 32px 0; /* Added padding-bottom: 32px */
-  min-height: 480px;
-  border-radius: 0;
   position: relative;
 `;
 
-const LeftLogo = styled.img`
-  width: 80px;
+const HeaderSection = styled.header`
+  background: #FFFFFF;
+  color: #fff;
+  padding:100px 0 40px 0;
+  text-align: center;
+`;
+
+const HeaderTitle = styled.h1`
+  color: #333333;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+
+`;
+
+const HeaderSubtitle = styled.p`
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-bottom: 32px;
+  color: #2D2D2D;
+`;
+
+const SearchBarWrapper = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 480px;
+  border: 1px solid #e3e7ee;
+  border-radius: 8px;
+  overflow: hidden;
+`;
+
+const SearchInputWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const SearchInput = styled.input`
+  width: 100%;
+  padding: 13px 40px 13px 16px;
+  border: none;
+  background: #f5f5f5;
+  border-radius: 8px 0 0 8px;
+  font-size: 1.08rem;
+  outline: none;
+  &::placeholder {
+    color: #2D2D2D;
+  }
+`;
+
+const SearchInputButton = styled.button`
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: none;
+  border: none;
+  padding: 0 12px;
+  cursor: pointer;
+  color: #2D2D2D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  &:hover {
+    color: #2563eb;
+  }
+`;
+
+const Section = styled.section`
+  padding: 44px 0 0 0;
+  width: 100%;
+`;
+
+const SectionTitle = styled.h2`
+  text-align: center;
+  font-size: 1.45rem;
+  font-weight: 800;
+  margin-bottom: 32px;
+  color: #111;
+`;
+
+const CardGrid = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 32px;
+  flex-wrap: wrap;
   margin-bottom: 32px;
 `;
 
-const GetStartedBox = styled.div`
-  background: transparent;
-  border: 2px solid #fff;
-  border-radius: 24px;
-  padding: 40px 32px 32px 32px;
-  width: 370px;
-  margin-top: 16px;
-  box-shadow: 0 2px 16px #0002;
+const Card = styled.div`
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px #e3e7ee;
+  padding: 0;
+  min-width: 240px;
+  max-width: 300px;
+  flex: 1 1 240px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+`;
+
+const CardContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  width: 100%;
+  padding: 16px;
 `;
 
-const GetStartedTitle = styled.h2`
-  font-size: 1.2rem;
+const CardIcon = styled.div`
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: #000;
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CardTitle = styled.div`
+  font-size: 1.13rem;
   font-weight: 700;
-  margin-bottom: 18px;
+  margin-bottom: 4px;
+  color: #222;
+`;
+
+const CardDesc = styled.div`
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 12px;
+`;
+
+const CardLink = styled.a`
+  color: #1B9DBA;
+  font-weight: 700;
+  font-size: 1.08rem;
+  text-decoration: none;
+  cursor: pointer;
+  margin-top: 10px;
+  &:hover, &:focus {
+    text-decoration: underline;
+    outline: none;
+  }
+`;
+
+const CardImage = styled.img`
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px 12px 12px 12px;
+  margin-bottom: 0;
+  display: block;
+`;
+
+const CategoryGrid = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+`;
+
+const CategoryCard = styled.div`
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px #e3e7ee;
+  padding: 28px 32px 24px 32px;
+  min-width: 240px;
+  max-width: 320px;
+  flex: 1 1 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const CategoryTitle = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 1.13rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #1B9DBA;
+  gap: 8px;
+`;
+
+const CategoryList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #222;
+  font-size: 1rem;
+  li {
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+`;
+
+const CategoryItemLink = styled(Link)`
+  color: #222;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.2s;
+  &:hover, &:focus {
+    color: #2563eb;
+    text-decoration: underline;
+    outline: none;
+  }
+`;
+
+const FindProductSection = styled.section`
+  background: #fff;
+  padding: 44px 0 0 0;
   text-align: center;
 `;
 
-const GetStartedForm = styled.form`
+const FindProductTitle = styled.h3`
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #111;
+`;
+
+const FindProductDesc = styled.p`
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 18px;
+`;
+
+const FindProductForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  width: 100%;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px #e3e7ee;
+  padding: 32px 24px 24px 24px;
+  max-width: 420px;
+  margin: 0 auto 10px auto;
 `;
 
-const Label = styled.label`
-  color: #fff;
+const FindProductInput = styled.input`
+  padding: 12px 14px;
+  border: 1.5px solid #e3e7ee;
+  border-radius: 7px;
   font-size: 1rem;
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  margin-bottom: 6px;
-  margin-top: 16px;
-  align-self: flex-start;
-`;
-
-const ErrorMsg = styled.div`
-  color: #ff1744;
-  font-size: 0.95rem;
-  margin-top: 4px;
-  margin-bottom: -8px;
-  align-self: flex-start;
-`;
-
-const Input = styled.input`
-  padding: 14px 16px;
-  border: 1.5px solid #cfd8dc;
-  border-radius: 8px;
-  font-size: 1rem;
-  background: #f7fafc;
-  color: #010a23;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
   width: 100%;
-  transition: border-color 0.3s;
-  margin-bottom: 0;
-  &:focus {
-    outline: none;
-    border-color: #00bcd4;
-  }
+  margin-bottom: 8px;
 `;
 
-const Select = styled.select`
-  padding: 14px 16px;
-  border: 1.5px solid #cfd8dc;
-  border-radius: 8px;
-  font-size: 1rem;
-  background: #f7fafc;
-  color: #010a23;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  width: 100%;
-  transition: border-color 0.3s;
-  margin-bottom: 0;
-  &:focus {
-    outline: none;
-    border-color: #00bcd4;
-  }
-`;
-
-const RegisterNowBtn = styled.button`
-  background: #00bcd4;
+const FindProductButton = styled.button`
+  background: #2D2D2D;
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 7px;
+  padding: 12px 0;
   font-size: 1.08rem;
-  font-family: 'Inter', sans-serif;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  width: 100%;
   cursor: pointer;
-  margin-top: 28px;
-  padding: 14px 0;
-  width: 100%;
-  transition: background 0.3s;
-  &:hover {
-    background: #176B87;
-  }
-`;
-
-const RightCol = styled.div`
-  flex: 1;
-  background: #00BCD4;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 48px 0 0 0;
-  min-height: 480px;
-  position: relative;
-  border-radius: 0;
-`;
-
-const Illustration = styled.div`
-  width: 260px;
-  height: 180px;
-  background: #fff;
-  border-radius: 18px;
-  margin-bottom: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 16px #0002;
-  img {
-    width: 80%;
-    height: auto;
-  }
-`;
-
-const StartupTitle = styled.h2`
-  font-size: 2rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  margin-bottom: 8px;
-  color: #fff;
-`;
-
-const StartupPrice = styled.div`
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 8px;
-`;
-
-const StartupDesc = styled.p`
-  color: #fff;
-  font-size: 1.05rem;
-  font-weight: 400;
-  max-width: 340px;
-  margin-bottom: 0;
-`;
-
-const Section = styled.div`
-  display: flex;
-  background: #fff;
-  flex-direction: row;
-  gap: 32px;
-  justify-content: center;
-  align-items: flex-start;
-  margin: 48px auto 0 auto;
-  max-width: 1200px;
-  width: 100%;
-  @media (max-width: 900px) {
-    flex-direction: column;
-    gap: 24px;
-    align-items: center;
-  }
-`;
-
-const TopicsMenu = styled.div`
-  background: #00BCD4;
-  padding: 24px 0 0px 0;
-  min-width: 240px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const TopicsHeading = styled.div`
-  font-weight: 700;
-  color: #fff;
-  font-size: 1.18rem;
-  margin-bottom: 18px;
-  text-align: center;
-  letter-spacing: 0.01em;
-`;
-
-const TopicBtn = styled(Link)`
-  color: #fff;
-  border-radius: 0;
-  font-size: 1.05rem;
-  border-top: 2px solid #fff;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  padding: 18px 0;
-  margin: 0 0;
-  text-align: center;
-  text-decoration: none;
-  width: 100%;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
-  &:hover {
-    background: #F5F7FA;
-    color: #333333;
-    border: 2px solid #2C2D2D;
-  }
-`;
-
-const CardsSection = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-`;
-
-const CardGroup = styled.div`
-  background: #f4f4f4;
-  border-radius: 12px;
-  padding: 32px 32px 32px 32px;
-  margin-bottom: 18px;
-`;
-
-const CardGroupTitle = styled.div`
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #888;
-  margin-bottom: 18px;
-`;
-
-const CardRow = styled.div`
-  display: flex;
-  margin-top: 40px;
-  gap: 32px;
-  @media (max-width: 900px) {
-    flex-direction: column;
-    gap: 16px;
-  }
-`;
-
-const OptionCard = styled(Link)`
-  background: #fff;
-  color: #232b4a;
-  border-radius: 3px;
-  font-size: 1.08rem;
-  font-weight: 600;
-  padding: 32px 24px;
-  text-align: center;
-  text-decoration: none;
-  min-width: 180px;
-  min-height: 70px;
-  box-shadow: 0 3px 24px rgb(137, 141, 141);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  transition: box-shadow 0.2s, color 0.2s, transform 0.2s;
-  &:hover {
-    color: #2C2D2D;
-    box-shadow: 0 5px 24px rgb(137, 141, 141);
-    transform: scale(1.04);
-  }
-`;
-
-const ChatBotContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 32px;
-  margin-bottom: 64px;
-  img {
-    width: 90px;
-    height: 200px;
-    margin-bottom: 0;
-  }
-  button {
-    background: #232b4a;
-    color: #fff;
-    border: none;
-    border-radius: 18px;
-    padding: 10px 22px;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-top: 18px;
-    cursor: pointer;
-    box-shadow: 0 2px 8px #0001;
+  margin-bottom: 6px;
+  transition: background 0.2s;
+  &:hover, &:focus {
+    background: #000;
     outline: none;
   }
-  button:hover {
-    background: #00BCD4;
+`;
+
+const FindProductHelp = styled.div`
+  color: #2563eb;
+  font-size: 0.98rem;
+  margin-bottom: 8px;
+`;
+
+const ArticlesSection = styled.section`
+  width: 100%;
+  padding: 44px 0 0 0;
+`;
+
+const ArticlesGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  justify-content: center;
+  align-items: stretch;
+  margin: 0 auto 32px auto;
+  max-width: 1200px;
+`;
+
+const ArticleCard = styled.article`
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #e3e7ee;
+  padding: 0 0 18px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  overflow: hidden;
+`;
+
+const ArticleImage = styled.img`
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+`;
+
+const ArticleTitle = styled.div`
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #222;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 10px 0; 
+  padding: 0 16px;
+`;
+
+const ArticleDesc = styled.div`
+  color: #555;
+  font-size: 0.98rem;
+  padding: 0 16px;
+  align-items: left;
+`;
+
+const ArticleLink = styled.a`
+  color: #1B9DBA;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  margin: 30px 0 10px 16px;
+  cursor: pointer;
+  &:hover, &:focus {
+    text-decoration: underline;
+    outline: none;
   }
 `;
 
-const BotShadow = styled.div`
-  width: 70px;
-  height: 16px;
-  background: radial-gradient(ellipse at center, #2B3A7475 5%, transparent 100%);
-  margin-top: 0px;
-  margin-bottom: 18px;
-  border-radius: 50%;
-`;
-
-const LeftColumn = styled.div`
+const ToolsGrid = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 32px;
+  justify-content: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
 `;
 
-const ArticlesSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  margin-top: 8px;
-  justify-content: flex-start;
-  max-width: 1100px;
-`;
-
-const ArticleCard = styled(Link)`
-  background: #fff;
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 2px 8px #0001;
+const ToolCard = styled.div`
+  background: #eaf2ff;
+  border-radius: 20px;
+  box-shadow: 0 2px 16px #e3e7ee;
+  padding: 32px 32px 32px 32px;
+  min-width: 320px;
+  max-width: 400px;
+  flex: 1 1 320px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 320px;
-  text-decoration: none;
-  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+`;
+
+const ToolCardGreen = styled(ToolCard)`
+  background: #e6f9ed;
+`;
+
+const ToolTitle = styled.div`
+  font-size: 1.13rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const ToolDesc = styled.div`
+  color: #222;
+  font-size: 1rem;
+  margin-bottom: 24px;
+`;
+
+const ToolButton = styled.button`
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 12px 0;
+  font-size: 1.08rem;
+  font-weight: 700;
+  width: 100%;
   cursor: pointer;
-  &:hover {
-    box-shadow: 0 6px 24px #00bcd422;
+  margin-top: 8px;
+  transition: background 0.2s;
+  &:hover, &:focus {
+    background: #1746b0;
+    outline: none;
+  }
+`;
+
+const KnowledgeBaseSection = styled.section`
+  background: #fff;
+  padding: 44px 0 0 0;
+`;
+
+const KnowledgeBaseTitle = styled.h3`
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 32px;
+  color: #111;
+`;
+
+const KnowledgeBaseGrid = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+`;
+
+const KBCol = styled.div`
+  min-width: 260px;
+  max-width: 340px;
+  flex: 1 1 260px;
+`;
+
+const KBList = styled.div`
+  background: #f6f9fc;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px #e3e7ee;
+  padding: 18px 18px 8px 18px;
+  margin-bottom: 18px;
+`;
+
+const KBItem = styled.a`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #222;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 0;
+  text-decoration: none;
+  border-bottom: 1px solid #e3e7ee;
+  cursor: pointer;
+  &:last-child {
+    border-bottom: none;
+  }
+  &:hover, &:focus {
+    color: #2563eb;
+    outline: none;
+  }
+`;
+
+const KBDesc = styled.span`
+  color: #888;
+  font-size: 0.97rem;
+  font-weight: 400;
+`;
+
+const HelpFooter = styled.footer`
+  background: #fff;
+  color: #fff;
+  padding: 44px 0 44px 0;
+  text-align: center;
+  margin-top: 44px;
+`;
+
+const HelpFooterTitle = styled.h3`
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #2D2D2D;
+`;
+
+const HelpFooterDesc = styled.p`
+  font-size: 1.08rem;
+  font-weight: 500;
+  margin-bottom: 22px;
+  color: #2D2D2D;
+`;
+
+const HelpFooterButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+`;
+
+const HelpFooterButton = styled.button`
+  background: #fff;
+  color: #2563eb;
+  border: none;
+  border-radius: 7px;
+  padding: 12px 28px;
+  font-size: 1.08rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  &:hover, &:focus {
+    background: #e3e7ee;
+    color: #1746b0;
+    outline: none;
+  }
+`;
+
+const LayerSvgImg = styled.img`
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 120px;
+  max-width: 40vw;
+  z-index: 1;
+  pointer-events: none;
+  margin-bottom: 80px;
+  margin-right: 50px;
+  animation: ${floatUpDown} 3.5s ease-in-out infinite;
+  @media (max-width: 700px) {
+    width: 180px;
+    margin-bottom: 70px;
+  }
+`;
+
+const LayerShadow = styled.div`
+  position: fixed;
+  right: 80px;
+  bottom: 50px;
+  width: 64px;
+  height: 20px;
+  background: radial-gradient(ellipse at center, rgba(37,99,235,0.18) 60%, transparent 100%);
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(2.5px);
+  opacity: 0.85;
+  animation: ${floatUpDown} 3.5s ease-in-out infinite;
+`;
+
+const ChatButton = styled.button`
+  position: fixed;
+  right: 39px;
+  bottom: 3px;
+  z-index: 10;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 62px;
+  height: 62px;
+  box-shadow: 0 4px 24px #2563eb44;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.1rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  animation: ${floatUpDown} 3.5s ease-in-out infinite;
+  &:hover, &:focus {
+    background: #1746b0;
+    box-shadow: 0 8px 32px #2563eb66;
+    outline: none;
+  }
+  @media (max-width: 700px) {
+    right: 16px;
+    bottom: 16px;
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
+`;
+
+const ResourceSection = styled.section`
+  width: 100%;
+  padding: 32px 0 0 0;
+`;
+
+const ResourceGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  justify-content: center;
+  align-items: stretch;
+  margin: 0 auto 32px auto;
+  max-width: 1200px;
+`;
+
+const ResourceCard = styled.a`
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px #e3e7ee;
+  padding: 32px 24px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-decoration: none;
+  color: #222;
+  font-size: 1.08rem;
+  font-weight: 600;
+  transition: box-shadow 0.2s, color 0.2s, transform 0.2s;
+  cursor: pointer;
+  &:hover, &:focus {
+    color: #2563eb;
+    box-shadow: 0 6px 24px #2563eb22;
+    outline: none;
     transform: translateY(-2px) scale(1.02);
   }
 `;
 
-const ArticleImg = styled.div`
-  width: 220px;
-  height: 190px;
-  background: #f4f4f4;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ArticleTitle = styled.h3`
-  font-size: 1.2rem;
+const ResourceTitle = styled.div`
+  font-size: 1.13rem;
   font-weight: 700;
-  margin-bottom: 0px;
-  text-align: left;
-  margin-top: 16px;
-  width: 100%;
-  color: #111;
-  display: block;
+  margin-bottom: 8px;
+  color: #1B9DBA;
 `;
 
-const ArticleDesc = styled.p`
-  color: #333;
-  font-size: 1rem;
-  font-weight: 400;
-  text-align: left;
-  width: 100%;
+const ResourceDesc = styled.div`
+  font-size: 0.98rem;
+  color: #555;
 `;
 
-const ArticleLinksRow = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  gap: 20px;
-  margin: 32px 0 80px 0;
-`;
+const resourceLinks = [
+  {
+    title: 'Troubleshooting',
+    desc: 'Guides and solutions for common issues',
+    href: '#',
+  },
+  {
+    title: 'Drivers & Downloads',
+    desc: 'Get the latest drivers and software',
+    href: '#',
+  },
+  {
+    title: 'Warranty Services',
+    desc: 'Check and manage your warranty',
+    href: '#',
+  },
+  {
+    title: 'User Manuals',
+    desc: 'Find and download user manuals',
+    href: '#',
+  },
+  {
+    title: 'Product Registration',
+    desc: 'Register your Ention product',
+    href: '#',
+  },
+  {
+    title: 'Order Parts',
+    desc: 'Order replacement parts and accessories',
+    href: '#',
+  },
+  {
+    title: 'FAQs',
+    desc: 'Frequently asked questions',
+    href: '#',
+  },
+  {
+    title: 'Community Forums',
+    desc: 'Join the Ention community',
+    href: '#',
+  },
+  {
+    title: 'Contact Support',
+    desc: 'Get in touch with our support team',
+    href: '#',
+  },
+];
 
-const ArticleLinkWrapper = styled.div`
-  width: 320px;
-  padding-left: 24px;
-`;
+// Create a wrapper component for icons
+const IconWrapper: React.FC<{ icon: IconType; size?: number }> = ({ icon: Icon, size = 24 }) => {
+  return <Icon size={size} />;
+};
 
-const ArticleLink = styled.a`
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #232b4a;
-  text-align: left;
-  text-decoration: none;
-  cursor: pointer;
-  span {
-    border-bottom: 2px solid #00bcd4;
-    padding-bottom: 2px;
-  }
-  &:hover {
-    font-weight: 700;
-    color: #00bcd4;
-  }
-`;
+// Define proper types for our data structures
+interface Article {
+  title: string;
+  desc: string;
+  views: string;
+  icon: IconType;
+  img: string;
+  link: string;
+}
+
+interface Category {
+  key: string;
+  icon: IconType;
+  title: string;
+  items: string[];
+}
+
+// Update the articleData with proper typing
+const articleData: Article[] = [
+  {
+    title: 'How to Optimize Battery Life',
+    desc: "Learn tips to extend your laptop's battery performance",
+    views: '15,234 views',
+    icon: FiBatteryCharging,
+    img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80',
+    link: '#',
+  },
+  {
+    title: 'WiFi Connection Issues',
+    desc: 'Troubleshoot wireless connectivity problems',
+    views: '12,891 views',
+    icon: FiWifi,
+    img: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80',
+    link: '#',
+  },
+  {
+    title: 'Installing Latest Drivers',
+    desc: 'Step-by-step guide to update your drivers',
+    views: '18,567 views',
+    icon: FiDownload,
+    img: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80',
+    link: '#',
+  },
+  {
+    title: 'Laptop Overheating Solutions',
+    desc: 'Fix overheating issues and improve cooling',
+    views: '9,432 views',
+    icon: FiAlertTriangle,
+    img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+    link: '#',
+  },
+  {
+    title: 'Keyboard Not Working Fix',
+    desc: 'Resolve keyboard and key responsiveness issues',
+    views: '11,765 views',
+    icon: FiTool,
+    img: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
+    link: '#',
+  },
+  {
+    title: 'Screen Flickering Solutions',
+    desc: 'Fix display issues and screen problems',
+    views: '7,891 views',
+    icon: FiMonitor,
+    img: 'https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=400&q=80',
+    link: '#',
+  },
+];
+
+// Update the categoryData with proper typing
+const categoryData: Category[] = [
+  {
+    key: 'hardware',
+    icon: FiMonitor,
+    title: 'Hardware Support',
+    items: [
+      'Battery Issues',
+      'Display Problems',
+      'Keyboard & Touchpad',
+      'Audio Issues',
+      'Overheating',
+    ],
+  },
+  {
+    key: 'software',
+    icon: FiSettings,
+    title: 'Software Support',
+    items: [
+      'Driver Updates',
+      'BIOS Updates',
+      'Windows Issues',
+      'Performance Optimization',
+      'Security Updates',
+    ],
+  },
+  {
+    key: 'warranty',
+    icon: FiShield,
+    title: 'Warranty & Service',
+    items: [
+      'Check Warranty Status',
+      'Extended Warranty',
+      'Repair Services',
+      'Parts Replacement',
+      'Service Centers',
+    ],
+  },
+];
 
 const Support: React.FC = () => {
-  const [form, setForm] = useState({ email: "", phone: "", name: "", city: "" });
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
-  const [errors, setErrors] = useState<{email?: string, phone?: string, name?: string, city?: string}>({});
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const validate = () => {
-    const errs: {email?: string, phone?: string, name?: string, city?: string} = {};
-    if (!form.email) errs.email = "Email is required.";
-    else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email)) errs.email = "Enter a valid email.";
-    if (!form.phone) errs.phone = "Phone number is required.";
-    else if (!/^\+?\d{10,15}$/.test(form.phone.replace(/\s/g, ''))) errs.phone = "Enter a valid phone number.";
-    if (!form.name) errs.name = "Name is required.";
-    if (!form.city) errs.city = "City is required.";
-    setErrors(errs);
-    return Object.keys(errs).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-    setLoading(true);
-    setError("");
-    setSuccess(false);
-    // Backend-ready: replace with real API call
-    setTimeout(() => {
-      setLoading(false);
-      setSuccess(true);
-    }, 1200);
-  };
-
   return (
     <>
-      <PageBg>
-        <HeaderRow>
-          <HeaderLeft>
-            <HeaderNav>
-              <HeaderNavLink to="/" $active={location.pathname === "/"}>Home</HeaderNavLink>
-              <HeaderNavLink to="/products" $active={location.pathname === "/products"}>Products</HeaderNavLink>
-              <HeaderNavLink to="/contact" $active={location.pathname === "/contact"}>Contact Us</HeaderNavLink>
-              <HeaderNavLink to="/demo" $active={location.pathname === "/demo"}>Request Demo</HeaderNavLink>
-            </HeaderNav>
-          </HeaderLeft>
-        </HeaderRow>
-        <MainSection>
-          <LeftCol>
-            <LeftLogo src={Logo} alt="ENTION Logo" />
-            <GetStartedBox>
-              <GetStartedTitle>Get Started<br /><span style={{ fontWeight: 400, fontSize: '0.98rem' }}>Welcome, please enter your details.</span></GetStartedTitle>
-              <GetStartedForm onSubmit={handleSubmit} autoComplete="off">
-                <Label htmlFor="email">Email Address</Label>
-                <Input type="email" id="email" name="email" placeholder="amal.m@gmail.com" value={form.email} onChange={handleChange} />
-                {errors.email && <ErrorMsg>{errors.email}</ErrorMsg>}
-                <Label htmlFor="phone">Mobile Number</Label>
-                <Input type="tel" id="phone" name="phone" placeholder="+91" value={form.phone} onChange={handleChange} />
-                {errors.phone && <ErrorMsg>{errors.phone}</ErrorMsg>}
-                <Label htmlFor="city">Select City</Label>
-                <Select id="city" name="city" value={form.city} onChange={handleChange}>
-                  <option value="">New Delhi</option>
-                  <option value="Mumbai">Mumbai</option>
-                  <option value="Bangalore">Bangalore</option>
-                  <option value="Chennai">Chennai</option>
-                  <option value="Kolkata">Kolkata</option>
-                  <option value="Other">Other</option>
-                </Select>
-                {errors.city && <ErrorMsg>{errors.city}</ErrorMsg>}
-                <RegisterNowBtn type="submit" disabled={loading}>{loading ? "Registering..." : "Register Now"}</RegisterNowBtn>
-                {success && <div style={{ color: '#176B87', marginTop: 8 }}>Registration successful!</div>}
-                {error && <div style={{ color: '#ff1744', marginTop: 8 }}>{error}</div>}
-              </GetStartedForm>
-            </GetStartedBox>
-          </LeftCol>
-          <RightCol>
-            <Illustration>
-              {/* Placeholder illustration */}
-              <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Startup" />
-            </Illustration>
-            <StartupTitle>Startup Registration</StartupTitle>
-            <StartupPrice>Starting for ₹ 2420</StartupPrice>
-            <StartupDesc>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</StartupDesc>
-          </RightCol>
-        </MainSection>
-        <Section>
-          <LeftColumn>
-            <TopicsMenu>
-              <TopicsHeading>Support Topics</TopicsHeading>
-              <TopicBtn to="#">Get Started</TopicBtn>
-              <TopicBtn to="#">Product Support</TopicBtn>
-              <TopicBtn to="#">Warranty & Protection Plans</TopicBtn>
-              <TopicBtn to="#">Recycling & Sustainability</TopicBtn>
-              <TopicBtn to="#">User Guides & Manuals</TopicBtn>
-              <TopicBtn to="#">Community Forums</TopicBtn>
-              <TopicBtn to="#">Contact ENTION</TopicBtn>
-            </TopicsMenu>
-            <ChatBotContainer>
-              <img src={Layer1} alt="Chat Bot" />
-              <BotShadow />
-              <button>Chat...</button>
-            </ChatBotContainer>
-          </LeftColumn>
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <CardsSection>
-              <CardGroup>
-                <CardGroupTitle>Get Started</CardGroupTitle>
-                <CardRow>
-                  <OptionCard to="#">Unboxing & First-Time Setup</OptionCard>
-                  <OptionCard to="#">Product Registration</OptionCard>
-                  <OptionCard to="#">User Guides & Manuals</OptionCard>
-                </CardRow>
-              </CardGroup>
-              <CardGroup>
-                <CardGroupTitle>Product Support</CardGroupTitle>
-                <CardRow>
-                  <OptionCard to="#">Drivers & Downloads</OptionCard>
-                  <OptionCard to="#">FAQs & Troubleshooting</OptionCard>
-                </CardRow>
-              </CardGroup>
-            </CardsSection>
-            <ArticlesSection>
-              <ArticleCard to="/support/windows-11-faq">
-                <ArticleImg>
-                  <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80" alt="Windows 11" style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px'}} />
-                </ArticleImg>
-                <ArticleTitle>Windows 11 FAQ</ArticleTitle>
-                <ArticleDesc>Find Answers To Commonly Asked Windows 11 Questions.</ArticleDesc>
-              </ArticleCard>
-              <ArticleCard to="/support/e-waste">
-                <ArticleImg>
-                  <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80" alt="E-Waste" style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px'}} />
-                </ArticleImg>
-                <ArticleTitle>E-Waste</ArticleTitle>
-                <ArticleDesc>Find More Details On E-Waste Management</ArticleDesc>
-              </ArticleCard>
-              <ArticleCard to="/support/accessories">
-                <ArticleImg>
-                  <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80" alt="Accessories" style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px'}} />
-                </ArticleImg>
-                <ArticleTitle>Purchase Accessories</ArticleTitle>
-                <ArticleDesc>Did You Know That Acer Offers Accessories For Many Of Our Products? Visit Our Store Today And Get The Most Out Of Your Acer.</ArticleDesc>
-              </ArticleCard>
-            </ArticlesSection>
-            <ArticleLinksRow>
-              <ArticleLinkWrapper>
-                <ArticleLink href="#"><span>Product Tips</span></ArticleLink>
-              </ArticleLinkWrapper>
-              <ArticleLinkWrapper>
-                <ArticleLink href="#"><span>Check Repair Status</span></ArticleLink>
-              </ArticleLinkWrapper>
-              <ArticleLinkWrapper>
-                <ArticleLink href="#"><span>Troubleshoot Your Device</span></ArticleLink>
-              </ArticleLinkWrapper>
-            </ArticleLinksRow>
-          </div>
-        </Section>
-      </PageBg>
+    <Navbar light />
+    <PageBg>
+      <HeaderSection>
+        <HeaderTitle>Ention Support</HeaderTitle>
+        <HeaderSubtitle>Get help with your Ention laptop. Find drivers, manuals, troubleshooting guides and more.</HeaderSubtitle>
+        <SearchBarWrapper role="search">
+          <SearchInputWrapper>
+            <SearchInput placeholder="Search for support articles, drivers, or product guides..." aria-label="Search" />
+            <SearchInputButton type="submit" aria-label="Search">
+              <IconWrapper icon={FiSearch} size={20} />
+            </SearchInputButton>
+          </SearchInputWrapper>
+        </SearchBarWrapper>
+      </HeaderSection>
+
+      <Section>
+        <SectionTitle>Quick Support Options</SectionTitle>
+        <CardGrid>
+          <Card>
+            <CardContent>
+              <CardImage src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80" alt="Drivers & Downloads" />
+              <CardIcon>
+                <IconWrapper icon={FiDownload} />
+              </CardIcon>
+              <CardTitle>Drivers & Downloads</CardTitle>
+              <CardDesc>Get the latest drivers and software</CardDesc>
+              <div style={{flex: 1}} />
+              <CardLink href="#">Download Now</CardLink>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <CardImage src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="Live Chat" />
+              <CardIcon>
+                <IconWrapper icon={FiHeadphones} />
+              </CardIcon>
+              <CardTitle>Live Chat</CardTitle>
+              <CardDesc>Chat with our support team</CardDesc>
+              <div style={{flex: 1}} />
+              <CardLink href="#">Start Chat</CardLink>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <CardImage src="https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=400&q=80" alt="Phone Support" />
+              <CardIcon>
+                <IconWrapper icon={FiPhone} />
+              </CardIcon>
+              <CardTitle>Phone Support</CardTitle>
+              <CardDesc>Call our technical support</CardDesc>
+              <div style={{flex: 1}} />
+              <CardLink href="#">Get Number</CardLink>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <CardImage src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Service Request" />
+              <CardIcon>
+                <IconWrapper icon={FiTool} />
+              </CardIcon>
+              <CardTitle>Service Request</CardTitle>
+              <CardDesc>Book a repair or maintenance service for your device</CardDesc>
+              <div style={{flex: 1}} />
+              <CardLink href="#">Book Service</CardLink>
+            </CardContent>
+          </Card>
+        </CardGrid>
+      </Section>
+
+      <ResourceSection>
+        <SectionTitle>Support Downloads & Resources</SectionTitle>
+        <ResourceGrid>
+          {resourceLinks.map(link => (
+            <ResourceCard href={link.href} key={link.title} tabIndex={0} aria-label={link.title}>
+              <ResourceTitle>{link.title}</ResourceTitle>
+              <ResourceDesc>{link.desc}</ResourceDesc>
+            </ResourceCard>
+          ))}
+        </ResourceGrid>
+      </ResourceSection>
+
+      <Section>
+        <SectionTitle>Browse Support by Category</SectionTitle>
+        <CategoryGrid>
+          {categoryData.map((cat) => (
+            <CategoryCard key={cat.key}>
+              <CategoryTitle>
+                <IconWrapper icon={cat.icon} /> {cat.title}
+              </CategoryTitle>
+              <CategoryList>
+                {cat.items.map((item, index) => (
+                  <li key={index}>
+                    <CategoryItemLink to={`/support/${cat.key}/${item.toLowerCase().replace(/\s+/g, '-')}`}>
+                      {item}
+                    </CategoryItemLink>
+                  </li>
+                ))}
+              </CategoryList>
+            </CategoryCard>
+          ))}
+        </CategoryGrid>
+      </Section>
+
+      <FindProductSection>
+        <FindProductTitle>Find Your Product</FindProductTitle>
+        <FindProductDesc>Enter your service tag or product model to get personalized support</FindProductDesc>
+        <FindProductForm action="#">
+          <FindProductInput placeholder="e.g., ENTION-XPS-13-2024" aria-label="Service Tag or Product Model" />
+          <FindProductButton type="submit">Find My Product</FindProductButton>
+        </FindProductForm>
+        <FindProductHelp>Don't know your service tag? <a href="#" style={{ color: '#2563eb', textDecoration: 'underline' }}>Learn how to find it</a></FindProductHelp>
+      </FindProductSection>
+
+      <ArticlesSection>
+        <SectionTitle>Popular Support Articles</SectionTitle>
+        <ArticlesGrid>
+          {articleData.map((a, i) => (
+            <ArticleCard key={i}>
+              <ArticleImage src={a.img} alt={a.title} />
+              <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                <ArticleTitle>
+                  <IconWrapper icon={a.icon} /> {a.title}
+                </ArticleTitle>
+                <ArticleDesc>{a.desc}</ArticleDesc>
+                <div style={{ flex: 1 }} />
+                <ArticleLink href={a.link}>Read More</ArticleLink>
+              </div>
+            </ArticleCard>
+          ))}
+        </ArticlesGrid>
+      </ArticlesSection>
+
+      <Section>
+        <SectionTitle>Service Tools & Features</SectionTitle>
+        <ToolsGrid>
+          <ToolCard>
+            <ToolTitle>
+              <IconWrapper icon={FiBookOpen} /> Track Service Status
+            </ToolTitle>
+            <ToolDesc>Monitor your repair progress in real-time and get updates on your service request.</ToolDesc>
+            <ToolButton onClick={() => window.open('#', '_blank')}>Track Your Service</ToolButton>
+          </ToolCard>
+          <ToolCardGreen>
+            <ToolTitle>
+              <IconWrapper icon={FiCheckCircle} /> Auto Troubleshoot
+            </ToolTitle>
+            <ToolDesc>Run automated diagnostics to identify and fix common issues instantly.</ToolDesc>
+            <ToolButton style={{ background: '#22c55e' }} onClick={() => window.open('#', '_blank')}>Run Diagnostics</ToolButton>
+          </ToolCardGreen>
+        </ToolsGrid>
+      </Section>
+
+      <KnowledgeBaseSection>
+        <KnowledgeBaseTitle>Knowledge Base Articles</KnowledgeBaseTitle>
+        <KnowledgeBaseGrid>
+          <KBCol>
+            <KBList>
+              <KBItem href="#">First Time Setup Guide <IconWrapper icon={FiChevronRight} /></KBItem>
+              <KBDesc>Complete setup instructions for new Ention laptops</KBDesc>
+              <KBItem href="#">System Recovery Options <IconWrapper icon={FiChevronRight} /></KBItem>
+              <KBDesc>How to restore your system to factory settings</KBDesc>
+              <KBItem href="#">BIOS Settings Guide <IconWrapper icon={FiChevronRight} /></KBItem>
+              <KBDesc>Navigate and configure BIOS settings</KBDesc>
+            </KBList>
+          </KBCol>
+          <KBCol>
+            <KBList>
+              <KBItem href="#">Boot Issues Resolution <IconWrapper icon={FiChevronRight} /></KBItem>
+              <KBDesc>Fix startup and boot-related problems</KBDesc>
+              <KBItem href="#">Performance Optimization <IconWrapper icon={FiChevronRight} /></KBItem>
+              <KBDesc>Speed up your laptop and improve performance</KBDesc>
+              <KBItem href="#">Audio & Video Issues <IconWrapper icon={FiChevronRight} /></KBItem>
+              <KBDesc>Resolve multimedia and device problems</KBDesc>
+            </KBList>
+          </KBCol>
+        </KnowledgeBaseGrid>
+      </KnowledgeBaseSection>
+
+      <HelpFooter>
+        <HelpFooterTitle>Still Need Help?</HelpFooterTitle>
+        <HelpFooterDesc>Our support team is here to assist you 24/7</HelpFooterDesc>
+        <HelpFooterButtons>
+          <HelpFooterButton onClick={() => window.open('#', '_blank')}>Contact Support</HelpFooterButton>
+          <HelpFooterButton style={{ background: '#2563eb', color: '#fff' }} onClick={() => window.open('#', '_blank')}>Schedule Callback</HelpFooterButton>
+        </HelpFooterButtons>
+      </HelpFooter>
+
+      {/* Layer SVG and shadow at bottom right */}
+      <LayerShadow />
+      <LayerSvgImg src={LayerSvg} alt="Layer" />
+      {/* Floating Chat Button */}
+      <ChatButton aria-label="Chat with support" onClick={() => window.open('#', '_blank')}>
+        <IconWrapper icon={FiMessageCircle} />
+      </ChatButton>
+    </PageBg>
     </>
   );
 };
