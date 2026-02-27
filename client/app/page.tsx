@@ -216,14 +216,14 @@ export default function Home() {
           {/* Add product cards below the hero subheading */}
           <div className="w-full flex justify-center mt-12">
             {/* Desktop: Row layout */}
-            <div className="hidden md:flex flex-row gap-12 w-full max-w-6xl">
+            <div className="hidden md:flex flex-row gap-6 lg:gap-12 w-full max-w-6xl">
               {/* Card 1: For Students */}
-              <Link href="/ecommerce/product/e5" className="flex-1 bg-white/20 backdrop-blur-md border border-white/60 shadow-lg px-8 py-8 flex flex-row items-center min-h-[260px] max-h-[320px] cursor-pointer transition hover:bg-white/30">
+              <Link href="/ecommerce/product/e5" className="flex-1 bg-white/20 backdrop-blur-md border border-white/60 shadow-lg px-8 py-8 flex flex-col lg:flex-row items-center cursor-pointer transition hover:bg-white/30">
                 {/* Content on left */}
-                <div className="flex flex-col justify-between flex-1 h-full pr-8">
+                <div className="flex flex-col justify-between flex-1 h-full lg:pr-8">
                   <div>
                     <div className="text-white text-xl font-bold mb-4">For Students</div>
-                    <div className="flex flex-row items-center gap-6">
+                    <div className="flex flex-col min-[1150px]:flex-row items-center lg:items-start min-[1150px]:items-center gap-6">
                       <Image src="/assets/landing_page/e5.webp" alt="Student Laptop" width={170} height={150} priority />
                       <div className="text-white text-base font-normal leading-relaxed">
                         Affordable, Lightweight, durable, and built to support your learning on the go.
@@ -236,12 +236,12 @@ export default function Home() {
                 </div>
               </Link>
               {/* Card 2: For Professionals & Techies */}
-              <Link href="/ecommerce/product/e4" className="flex-1 bg-white/20 backdrop-blur-md border border-white/60 shadow-lg px-8 py-8 flex flex-row items-center min-h-[260px] max-h-[320px] cursor-pointer transition hover:bg-white/30">
+              <Link href="/ecommerce/product/e4" className="flex-1 bg-white/20 backdrop-blur-md border border-white/60 shadow-lg px-8 py-8 flex flex-col lg:flex-row items-center cursor-pointer transition hover:bg-white/30">
                 {/* Content on left */}
-                <div className="flex flex-col justify-between flex-1 h-full pr-8">
+                <div className="flex flex-col justify-between flex-1 h-full lg:pr-8">
                   <div>
                     <div className="text-white text-xl font-bold mb-4">For Professionals & Techies</div>
-                    <div className="flex flex-row items-center gap-6">
+                    <div className="flex flex-col min-[1150px]:flex-row items-center lg:items-start min-[1150px]:items-center gap-6">
                       <Image src="/assets/landing_page/e4.webp" alt="Pro Laptop" width={170} height={150} priority />
                       <div className="text-white text-base font-normal leading-relaxed">
                         Customizable, seamlessly switch from work tasks to meetings with reliable performance. A powerful and customizable machine ready to take on your code, design, or research.
